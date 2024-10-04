@@ -1,12 +1,11 @@
-
 'use client';
 import React, { useState } from 'react';
 import {
   AdvancedMarker,
-  APIProvider,
   InfoWindow,
   Map,
   Pin,
+  APIProvider,
 } from '@vis.gl/react-google-maps';
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string;
@@ -20,12 +19,7 @@ const MarkerList = ({ markers }) => {
 
   return (
     <APIProvider apiKey={API_KEY} libraries={['marker']}>
-      <Map
-        defaultZoom={3}
-        defaultCenter={{ lat: 12, lng: 0 }}
-        gestureHandling="greedy"
-        disableDefaultUI
-      >
+      <Map defaultZoom={3} defaultCenter={{ lat: 12, lng: 0 }} disableDefaultUI>
         {markers.map((marker) => (
           <AdvancedMarker
             key={marker.id}
@@ -33,10 +27,10 @@ const MarkerList = ({ markers }) => {
             onClick={() => handleMarkerClick(marker.id)}
             title={marker.title}
           >
-            <Pin background="#22ccff" borderColor="#1e89a1" />
+            <Pin background={'#22ccff'} borderColor={'#1e89a1'} />
             {activeMarkerId === marker.id && (
               <InfoWindow
-                anchor={{ lat: marker.lat, lng: marker.lng }}
+                anchor={marker.position}
                 maxWidth={200}
                 onCloseClick={() => setActiveMarkerId(null)}
               >
@@ -57,9 +51,7 @@ const MarkerList = ({ markers }) => {
             <li
               key={marker.id}
               onClick={() => handleMarkerClick(marker.id)}
-              className={`cursor-pointer mt-2 ${
-                activeMarkerId === marker.id ? 'text-blue-500' : ''
-              }`}
+              className={`cursor-pointer mt-2 ${activeMarkerId === marker.id ? 'text-blue-500' : ''}`}
             >
               <strong>{marker.title}</strong>: {marker.description}
               <br />
