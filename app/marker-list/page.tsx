@@ -1,12 +1,15 @@
-// app/marker-list/page.tsx
-import React from 'react';
-import { getMarkers } from '@/app/actions/getMarkers';
-import MarkerList from '@/components/MarkerList';
+import GoogleMapWithMarkers from '@/components/GoogleMapWithMarkers';
+import { PrismaClient } from '@prisma/client';
 
-const MarkerListPage = async () => {
-  const markersData = await getMarkers();
+const prisma = new PrismaClient();
 
-  return <MarkerList markers={markersData} />;
-};
+export default async function MarkerMapPage() {
+  const markers = await prisma.marker.findMany();
 
-export default MarkerListPage;
+  return (
+    <div>
+      <h1>Interactive Map with Marker List</h1>
+      <GoogleMapWithMarkers markers={markers} />
+    </div>
+  );
+}
